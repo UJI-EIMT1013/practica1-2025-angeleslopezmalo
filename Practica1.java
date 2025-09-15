@@ -7,7 +7,25 @@ public class Practica1 {
     //EJERCICIO 1
     public static Set<Integer> multiplos (Iterator<Integer> it) {
         //TODO
-        return null;
+        Set<Integer> resultado = new HashSet<>();
+        Set<Integer> todos = new HashSet<>();
+        while (it.hasNext()) {
+            Integer n = it.next();
+            if (n!=0) {
+                Iterator<Integer> it2 = todos.iterator();
+                while (it2.hasNext()) {
+                    Integer d = it2.next();
+                    if (n % d == 0) {
+                        resultado.add(n);
+                        break;
+                    } else if (d % n == 0) {
+                        resultado.add(d);
+                    }
+                }
+                todos.add(n);
+            }
+        }
+        return resultado;
     }
 
     //EJERCICIO2
