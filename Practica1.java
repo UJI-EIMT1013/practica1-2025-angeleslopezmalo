@@ -31,19 +31,77 @@ public class Practica1 {
     //EJERCICIO2
     public static void separate (Set<Integer> cuadrados, Set<Integer> noCuadrados)  {
         //TODO
+        boolean anyadir1 = (cuadrados.contains(1) && noCuadrados.contains(1)) ;
 
+        noCuadrados.addAll(cuadrados);
+        Set<Integer> todos = new HashSet<>();
+        cuadrados.clear();
+        Iterator<Integer> it_no = noCuadrados.iterator();
+        while (it_no.hasNext()) {
+            Integer n = it_no.next();
+            for (Integer r : todos) {
+                if (r * r == n) {
+                    cuadrados.add(n);
+                    it_no.remove();
+                    break;
+                } else if (n * n == r) {
+                    cuadrados.add(r);
+                }
+            }
+            todos.add(n);
+        }
+        if (anyadir1) {
+            cuadrados.add(1);
+            noCuadrados.remove(1);
+        }
     }
 
     //EJERCICIO 3
     public static<T> Collection<Set<T>> divideInSets (Iterator<T> it) {
         //TODO
-        return null;
+        Collection<Set<T>> resultado = new ArrayList<>();
+        while (it.hasNext()) {
+            T n = it.next();
+            boolean anyadido = false;
+            for (Set<T> s : resultado) {
+                if (!s.contains(n)) {
+                    s.add(n);
+                    anyadido = true;
+                    break;
+                }
+            }
+            if (!anyadido) {
+                Set<T> nuevo = new HashSet<>();
+                nuevo.add(n);
+                resultado.add(nuevo);
+            }
+        }
+        return resultado;
     }
 
     //EJERCICIO 4
-    public static<T> Collection<Set<T>> coverageSet2 (Set<T> u,ArrayList<Set<T>> col) {
+    public static<T> Collection<Set<T>> coverageSet2 (Set<T> u, ArrayList<Set<T>> col) {
         //TODO
-        return null;
+        Collection<Set<T>> res = new HashSet<>();
+        if (u.isEmpty()) return res;
+        for (int i = 0; i < col.size(); i++) {
+            Set<T> uno = col.get(i);
+            if (!uno.containsAll(u)) {
+                for (int j = i + 1; j < col.size(); j++) {
+                    Set<T> otro = col.get(j);
+                    if (!otro.containsAll(u)) {
+                        Set<T> s = new HashSet<>(uno);
+                        s.addAll(otro);
+                        if (s.containsAll(u)) {
+                            res.add(col.get(i));
+                            res.add(col.get(j));
+                            return res;
+                        }
+                    }
+                }
+            }
+        }
+        return res;
     }
 
 
